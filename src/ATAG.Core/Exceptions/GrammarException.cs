@@ -8,9 +8,13 @@ namespace ATAG.Core.Exceptions
 {
     public class GrammarException: Exception
     {
-        public GrammarException()
-        {
+        public int FromLine { get; set; }
+        public int ToLine { get; set; }
 
-        }
+        public GrammarException(string message): base(message)
+        { }
+
+        public GrammarException()
+        { }
     }
 }

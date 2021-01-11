@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using ATAG.Core.Exceptions;
 using ATAG.Core.Models;
 using ATAG.Core.Models.Enums;
@@ -10,8 +11,12 @@ using System.Threading.Tasks;
 
 namespace ATAG.Core.Visitors
 {
-    public class MainVisitor: GrammarBaseVisitor<object>
+    public class MainVisitor : GrammarBaseVisitor<object>
     {
+        private readonly string[] _primitives = { "string", "int", "double", "long", "decimal" };
+
+        private readonly string[] _supportedAttributes = { "Route" };
+
         public override object VisitInstructions([NotNull] GrammarParser.InstructionsContext context)
         {
             var result = new FileParseResult();
@@ -19,28 +24,47 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return result;
 
-            foreach (var child in context.children)
+            try
             {
-                var instructionType = child.GetChild(0).GetText();
-
-                switch (instructionType)
+                foreach (var child in context.children)
                 {
-                    case "cntrl":
-                        var controller = (ControllerModel)Visit(child);
-                        result.Controllers.Add(controller);
-                        break;
+                    var instructionType = child.GetChild(0).GetText();
 
-                    case "model":
-                        var model = (EntityModel)Visit(child);
-                        result.Models.Add(model);
-                        break;
+                    switch (instructionType)
+                    {
+                        case "cntrl":
+                            var controller = (ControllerModel)Visit(child);
 
-                    default:
-                        throw new GrammarException();
+                            ShouldBeUnique("Controller", controller.Name, 
+                                result.Controllers.Select(x => x.Name), child);
+
+                            result.Controllers.Add(controller);
+                            break;
+
+                        case "model":
+                            var model = (EntityModel)Visit(child);
+
+                            ShouldBeUnique("Model", model.Name,
+                                result.Models.Select(x => x.Name), child);
+
+                            result.Models.Add(model);
+                            break;
+
+                        default:
+                            throw new GrammarException($"Can not parse isntruction {instructionType}") 
+                            {
+                                FromLine = child.SourceInterval.a,
+                                ToLine = child.SourceInterval.b
+                            };
+                    }
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public override object VisitController([NotNull] GrammarParser.ControllerContext context)
@@ -51,13 +75,24 @@ namespace ATAG.Core.Visitors
                 return controller;
 
             controller.Name = context.name.Text;
-            foreach(var method in context.methodDefinition())
-            {
-                var methodModel = (MethodModel)Visit(method);
-                controller.Methods.Add(methodModel);
-            }
 
-            return controller;
+            try
+            {
+                foreach (var method in context.methodDefinition())
+                {
+                    var methodModel = (MethodModel)Visit(method);
+
+                    ShouldBeUnique("Method", methodModel, controller.Methods, method);
+
+                    controller.Methods.Add(methodModel);
+                }
+
+                return controller;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public override object VisitMethodDefinition([NotNull] GrammarParser.MethodDefinitionContext context)
@@ -89,6 +124,16 @@ namespace ATAG.Core.Visitors
             model.Name = context.name.Text;
             model.Properties = new Dictionary<string, string>(context.propertyDefenition()
                 .Select(x => (KeyValuePair<string, string>)Visit(x)));
+
+            foreach(var prop in context.propertyDefenition())
+            {
+                var property = (KeyValuePair<string, string>)Visit(prop);
+
+                ShouldBeUnique("Property", property.Value,
+                    model.Properties.Select(x => x.Value), prop);
+
+                model.Properties.Add(property.Key, property.Value);
+            }
 
 
             return model;
@@ -125,6 +170,10 @@ namespace ATAG.Core.Visitors
             foreach (var prop in context.propertyDefenition())
             {
                 var property = (KeyValuePair<string, string>)Visit(prop);
+
+                ShouldBeUnique("QueryParameter", property.Value, 
+                    parameters.Select(x => x.Value), prop);
+
                 parameters.Add(property.Key, property.Value);
             }
 
@@ -150,6 +199,10 @@ namespace ATAG.Core.Visitors
             foreach(var attribute in context.attribute())
             {
                 var keyValue = (KeyValuePair<string, string>)Visit(attribute);
+
+                ShouldBeUnique("Attribute", keyValue.Key, 
+                    attributes.Select(x => x.Key), attribute);
+
                 attributes.Add(keyValue.Key, keyValue.Value);
             }
 
@@ -161,8 +214,30 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return new KeyValuePair<string, string>();
 
+            
             var keyValue = new KeyValuePair<string, string>(context.key.Text, context.value.Text);
+
+            if (!_supportedAttributes.Contains(keyValue.Key))
+            {
+                throw new GrammarException($"Attribute {keyValue.Key} does not supported!")
+                {
+                    FromLine = context.SourceInterval.a,
+                    ToLine = context.SourceInterval.b
+                };
+            }
+
             return keyValue;
+        }
+
+        private void ShouldBeUnique<T>(string memberName, T suspect, 
+            IEnumerable<T> collection, IParseTree currentTree)
+        {
+            if(collection.Count(x => x.Equals(suspect)) > 0)
+                throw new GrammarException($"{memberName} with name \"{suspect}\" is already exist!")
+                {
+                    FromLine = currentTree.SourceInterval.a,
+                    ToLine = currentTree.SourceInterval.b
+                };
         }
     }
 }

@@ -19,5 +19,18 @@ namespace ATAG.Core.Models
         {
             Attributes = new Dictionary<string, string>();
         }
+
+        public override bool Equals(object obj)
+        {
+            var method = (MethodModel)obj;
+
+            return Name == method.Name
+                && Parameters.IsSemanticEquals(method.Parameters);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

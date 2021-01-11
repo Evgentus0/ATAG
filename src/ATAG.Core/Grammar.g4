@@ -49,6 +49,6 @@ EQUAL : '=';
 
 CAPTION : [A-Za-z]+([A-Za-z] | [0-9])*;
 
-VALUE : (CAPTION | '-' | '_')*;
+VALUE : (CAPTION | '-' | '_')+;
 
 WS : [ \t\r\n] -> channel(HIDDEN);

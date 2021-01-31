@@ -22,5 +22,21 @@ namespace ATAG.Core.Extentions
             }
             return true;
         }
+
+        public static bool HasSameElements<T>(this IEnumerable<T> first, IEnumerable<T> second)
+        {
+            if (first.Count() != second.Count())
+                return false;
+
+            foreach(var element in first)
+            {
+                if (!second.Contains(element))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

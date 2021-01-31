@@ -17,22 +17,14 @@ namespace ATAG.Core.Models
             QueryParameters = new Dictionary<string, string>();
         }
 
-        public bool IsSemanticEquals(ParameterModel parameter)
-        {
-            return BodyParameter.Key == parameter.BodyParameter.Key
-                && QueryParameters.Count == parameter.QueryParameters.Count
-                && QueryParameters.Select(x => x.Key)
-                .EqualsByElements(parameter.QueryParameters.Select(x => x.Key));
-        }
-
         public override bool Equals(object obj)
         { 
             var parameter = (ParameterModel)obj;
 
-            return BodyParameter.Value == parameter.BodyParameter.Value
-                && QueryParameters.Count == parameter.QueryParameters.Count
-                && QueryParameters.Select(x => x.Value)
-                .EqualsByElements(parameter.QueryParameters.Select(x => x.Value));
+            return BodyParameter.Key == parameter.BodyParameter.Key
+                    && QueryParameters.Count == parameter.QueryParameters.Count
+                    && QueryParameters.Select(x => x.Key)
+                    .EqualsByElements(parameter.QueryParameters.Select(x => x.Key));
         }
 
         public override int GetHashCode()

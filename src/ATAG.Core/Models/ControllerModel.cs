@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ATAG.Core.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,19 @@ namespace ATAG.Core.Models
         public ControllerModel()
         {
             Methods = new List<MethodModel>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var controller = (ControllerModel)obj;
+
+            return Name == controller.Name
+                && Methods.HasSameElements(controller.Methods);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

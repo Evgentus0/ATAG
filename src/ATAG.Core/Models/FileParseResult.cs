@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ATAG.Core.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,19 @@ namespace ATAG.Core.Models
         {
             Controllers = new List<ControllerModel>();
             Models = new List<EntityModel>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var result = (FileParseResult)obj;
+
+            return Controllers.HasSameElements(result.Controllers)
+                && Models.HasSameElements(result.Models);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

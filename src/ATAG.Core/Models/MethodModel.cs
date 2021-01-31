@@ -25,7 +25,7 @@ namespace ATAG.Core.Models
             var method = (MethodModel)obj;
 
             return Name == method.Name
-                && Parameters.IsSemanticEquals(method.Parameters);
+                && Parameters.Equals(method.Parameters);
         }
 
         public override int GetHashCode()

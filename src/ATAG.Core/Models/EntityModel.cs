@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ATAG.Core.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,15 @@ namespace ATAG.Core.Models
         public EntityModel()
         {
             Properties = new Dictionary<string, string>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var model = (EntityModel)obj;
+
+            return Name == model.Name
+                && Properties
+                .HasSameElements(model.Properties);
         }
     }
 }

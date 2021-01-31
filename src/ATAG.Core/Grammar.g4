@@ -47,8 +47,8 @@ RSQUAREPAREN : ']';
 
 EQUAL : '=';
 
-CAPTION : [A-Za-z]+([A-Za-z] | [0-9])*;
+CAPTION : [A-Za-z]+([A-Za-z] | [0-9] | '_' )*;
 
-VALUE : (CAPTION | '-' | '_')+;
+VALUE : (CAPTION | '-' | '/' | LBRACE | RBRACE)+;
 
 WS : [ \t\r\n] -> channel(HIDDEN);

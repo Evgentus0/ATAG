@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATAG.Core.Test", "tests\ATA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATAG.Generator", "src\ATAG.Generator\ATAG.Generator.csproj", "{6368F950-45BE-46AF-81FA-CD75488A046A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATAG.TestInfrasctructure", "tests\ATAG.TestInfrasctructure\ATAG.TestInfrasctructure.csproj", "{A9E4C057-8750-4499-90A4-92CA3E198FB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATAG.TestInfrasctructure", "tests\ATAG.TestInfrasctructure\ATAG.TestInfrasctructure.csproj", "{A9E4C057-8750-4499-90A4-92CA3E198FB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATAG.Generator.Test", "tests\ATAG.Generator.Test\ATAG.Generator.Test.csproj", "{A3AA1988-895D-48ED-9041-0816B80ACA90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{A9E4C057-8750-4499-90A4-92CA3E198FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9E4C057-8750-4499-90A4-92CA3E198FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9E4C057-8750-4499-90A4-92CA3E198FB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3AA1988-895D-48ED-9041-0816B80ACA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3AA1988-895D-48ED-9041-0816B80ACA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3AA1988-895D-48ED-9041-0816B80ACA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3AA1988-895D-48ED-9041-0816B80ACA90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{C2208D82-3E8D-47D5-8F04-08E9CEF7F8B5} = {BF293D70-F221-4EB2-90BE-F34338287316}
 		{6368F950-45BE-46AF-81FA-CD75488A046A} = {799B2EA6-533C-42EB-8654-75C72F3974BC}
 		{A9E4C057-8750-4499-90A4-92CA3E198FB0} = {BF293D70-F221-4EB2-90BE-F34338287316}
+		{A3AA1988-895D-48ED-9041-0816B80ACA90} = {BF293D70-F221-4EB2-90BE-F34338287316}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DBF92F3-DC8D-4D93-AD9E-57863D11163C}

@@ -76,7 +76,7 @@ namespace ATAG.Generator
             throw new NotImplementedException();
         }
 
-        private string GenerateController(ControllerModel controller)
+        protected string GenerateController(ControllerModel controller)
         {
             StringBuilder sb = new StringBuilder();
             int tabLevel = 0;
@@ -97,11 +97,11 @@ namespace ATAG.Generator
             {
                 tabLevel++;
 
-                sb.Append($"[{Tabs(tabLevel)}{method.Verb.GetFullName()}]");
+                sb.Append($"{Tabs(tabLevel)}[{method.Verb.GetFullName()}]");
                 sb.AppendLine();
                 foreach (var attribute in method.Attributes)
                 {
-                    sb.Append($"[{Tabs(tabLevel)}{attribute.Key}(\"{attribute.Value}\")]");
+                    sb.Append($"{Tabs(tabLevel)}[{attribute.Key}(\"{attribute.Value}\")]");
                     sb.AppendLine();
                 }
 
@@ -122,7 +122,7 @@ namespace ATAG.Generator
 
                     foreach(var qp in method.Parameters.QueryParameters)
                     {
-                        sb.Append($"{qp.Key} {qp.Value}, ");
+                        sb.Append($"[FromQuery]{qp.Key} {qp.Value}, ");
                     }
                     sb.Length -= 2;
                 }
@@ -130,6 +130,8 @@ namespace ATAG.Generator
 
                 sb.AppendLine();
                 sb.AppendLine();
+
+                tabLevel--;
             }
 
             sb.Append("}");
@@ -137,7 +139,7 @@ namespace ATAG.Generator
             return sb.ToString();
         }
 
-        private string GenerateModel(EntityModel model)
+        protected string GenerateModel(EntityModel model)
         {
             var sb = new StringBuilder();
 
@@ -161,7 +163,7 @@ namespace ATAG.Generator
             return sb.ToString();
         }
 
-        static string Tabs(int n)
+        private static string Tabs(int n)
         {
             return new string('\t', n);
         }

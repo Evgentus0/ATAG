@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using ATAG.Core.Models;
 using ATAG.Core.Visitors;
 using ATAG.TestInfrasctructure;
 using Microsoft.CodeAnalysis;
@@ -23,45 +24,19 @@ namespace ATAG.Core.Test.Scenarios.Visitors
         }
 
         [Test]
-        public void test()
-        {
-            Dictionary<string, int> test1 = new Dictionary<string, int>
-            {
-                ["str1"] = 2,
-                ["str2"] = 2
-            };
-            Dictionary<string, int> test2 = new Dictionary<string, int>
-            {
-                ["str1"] = 1,
-                ["str2"] = 2
-            };
-
-
-            var t = test1.First().Equals(test2.First());
-
-            var t2 = test2.Contains(test1.First());
-        }
-
-        [Test]
-        public void VisitControllerTest()
+        public void VisitController_returnCorrectModel_Test()
         {
             //Arrange
+            var model = TestData.CorrectControllerModel;
 
-            var expression =
-@"
-cntrl ControllerName1{
-	[Route=test_fdf_tedsf] get MethodName1() return ResponseModelName1;
-	post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return ResponseModelName2;
-}
-";
-            var generator = new TestGenerator(_mainParser, expression);
+            var expression = model.Key;
+            var excpectedModel = model.Value;
+
             //Act
-
-
-            generator.Execute(new GeneratorExecutionContext());
+            var result = _mainParser.ParseProtoFile(expression);
 
             //Assert
-            
+            Assert.AreEqual(excpectedModel, result);
         }
     }
 }

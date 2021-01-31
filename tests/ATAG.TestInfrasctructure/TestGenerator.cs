@@ -11,20 +11,24 @@ namespace ATAG.TestInfrasctructure
 {
     public class TestGenerator: Generator.Generator
     {
-        private string _testText;
+        public TestGenerator(IMainParser mainParser): base(mainParser)
+        {   }
 
-        public TestGenerator(IMainParser mainParser, string testText): base(mainParser)
+        public Dictionary<string, string> GetGeneratesFiles(FileParseResult model)
         {
-            _testText = testText;
-        }
+            var result = new Dictionary<string, string>();
 
-        protected override FileParseResult ParseFiles(GeneratorExecutionContext context)
-        {
+            foreach(var cntrl in model.Controllers)
+            {
+                result.Add(cntrl.Name, GenerateController(cntrl));
+            }
 
-            var result = _mainParser.ParseProtoFile(_testText);
+            foreach(var entity in model.Models)
+            {
+                result.Add(entity.Name, GenerateModel(entity));
+            }
 
             return result;
         }
-
     }
 }

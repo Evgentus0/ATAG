@@ -16,7 +16,7 @@ namespace ATAG.Generator
     {
         private const string _extention = "atag";
 
-        private IMainParser _mainParser;
+        protected IMainParser _mainParser;
 
         public Generator(IMainParser mainParser)
         {
@@ -55,7 +55,7 @@ namespace ATAG.Generator
 
         }
 
-        private FileParseResult ParseFiles(GeneratorExecutionContext context)
+        protected virtual FileParseResult ParseFiles(GeneratorExecutionContext context)
         {
             var result = new FileParseResult();
 
@@ -80,6 +80,9 @@ namespace ATAG.Generator
         {
             StringBuilder sb = new StringBuilder();
             int tabLevel = 0;
+
+            sb.Append("using System;");
+            sb.AppendLine();
 
             sb.Append("[Route(\"api /[controller]\")]");
             sb.AppendLine();
@@ -137,6 +140,9 @@ namespace ATAG.Generator
         private string GenerateModel(EntityModel model)
         {
             var sb = new StringBuilder();
+
+            sb.Append("using System;");
+            sb.AppendLine();
 
             sb.Append($"public class {model.Name}");
             sb.AppendLine();

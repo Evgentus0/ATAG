@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ATAG.Core\ATAG.Core.csproj" />
+    <ProjectReference Include="..\..\src\ATAG.Generator\ATAG.Generator.csproj" />
+  </ItemGroup>
+
+</Project>

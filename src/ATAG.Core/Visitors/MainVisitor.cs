@@ -129,8 +129,8 @@ namespace ATAG.Core.Visitors
             {
                 var property = (KeyValuePair<string, string>)Visit(prop);
 
-                ShouldBeUnique("Property", property.Value,
-                    model.Properties.Select(x => x.Value), prop);
+                ShouldBeUnique("Property", property,
+                    model.Properties, prop);
 
                 model.Properties.Add(property.Key, property.Value);
             }
@@ -232,7 +232,7 @@ namespace ATAG.Core.Visitors
         private void ShouldBeUnique<T>(string memberName, T suspect, 
             IEnumerable<T> collection, IParseTree currentTree)
         {
-            if(collection.Count(x => x.Equals(suspect)) > 0)
+            if(collection.Contains(suspect))
                 throw new GrammarException($"{memberName} with name \"{suspect}\" is already exist!")
                 {
                     FromLine = currentTree.SourceInterval.a,

@@ -1,5 +1,7 @@
 ﻿using Antlr4.Runtime;
 using ATAG.Core.Visitors;
+using ATAG.TestInfrasctructure;
+using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -21,25 +23,45 @@ namespace ATAG.Core.Test.Scenarios.Visitors
         }
 
         [Test]
+        public void test()
+        {
+            Dictionary<string, int> test1 = new Dictionary<string, int>
+            {
+                ["str1"] = 2,
+                ["str2"] = 2
+            };
+            Dictionary<string, int> test2 = new Dictionary<string, int>
+            {
+                ["str1"] = 1,
+                ["str2"] = 2
+            };
+
+
+            var t = test1.First().Equals(test2.First());
+
+            var t2 = test2.Contains(test1.First());
+        }
+
+        [Test]
         public void VisitControllerTest()
         {
             //Arrange
+
             var expression =
 @"
 cntrl ControllerName1{
-	[route=test_fdf_tedsf] get MethodName1() return ResponseModelName1;
+	[Route=test_fdf_tedsf] get MethodName1() return ResponseModelName1;
 	post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return ResponseModelName2;
 }
 ";
+            var generator = new TestGenerator(_mainParser, expression);
             //Act
-            var result = _mainParser.ParseProtoFile(expression);
+
+
+            generator.Execute(new GeneratorExecutionContext());
 
             //Assert
-            Assert.AreEqual(0, result.Models.Count);
-            Assert.AreEqual(1, result.Controllers.Count);
-
-            var controller = result.Controllers.First();
-            Assert.AreEqual("ControllerName1", controller.Name);
+            
         }
     }
 }

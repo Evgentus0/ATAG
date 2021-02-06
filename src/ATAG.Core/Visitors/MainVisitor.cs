@@ -122,8 +122,6 @@ namespace ATAG.Core.Visitors
                 return model;
 
             model.Name = context.name.Text;
-            model.Properties = new Dictionary<string, string>(context.propertyDefenition()
-                .Select(x => (KeyValuePair<string, string>)Visit(x)));
 
             foreach(var prop in context.propertyDefenition())
             {

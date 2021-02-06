@@ -12,12 +12,12 @@ namespace ATAG.Generator.Test.Scenarios
     [TestFixture]
     public class GeneratorTests
     {
-        private TestGenerator _testGenerator;
+        
 
         [SetUp]
         public void Setup()
         {
-            _testGenerator = new TestGenerator(new MainParser(new Core.Visitors.MainVisitor()));
+            
         }
 
         [Test]
@@ -26,7 +26,21 @@ namespace ATAG.Generator.Test.Scenarios
             //Arrange
 
             //Act
-            var files = _testGenerator.GetGeneratesFiles(TestData.CorrectControllerModel.Value);
+            var controllers = new List<string>();
+            
+            foreach (var controller in TestData.CorrectControllerModel.Value.Controllers)
+            {
+                controllers.Add(GeneratorHelper.GenerateController(controller));
+            }
+
+            var models = new List<string>();
+
+            foreach (var model in TestData.CorrectControllerModel.Value.Models)
+            {
+                models.Add(GeneratorHelper.GenerateModel(model));
+            }
+
+            Console.WriteLine();
 
             //Assert
 

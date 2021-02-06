@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime;
 
 namespace ATAG.TestInfrasctructure
 {
@@ -14,8 +15,13 @@ namespace ATAG.TestInfrasctructure
             (
 @"
 cntrl ControllerName1{
-	[Route=test_fdf_tedsf] get MethodName1() return ResponseModelName1;
-	post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return ResponseModelName2;
+	[Route=test_fdf_tedsf] get MethodName1() return string;
+	post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return string;
+}
+
+model Model1{
+    string Str1;
+    int Int1;
 }
 ",
                 new FileParseResult()
@@ -51,6 +57,18 @@ cntrl ControllerName1{
                                         }
                                     }
                                 }
+                            }
+                        }
+                    },
+                    Models = new List<EntityModel>
+                    {
+                        new EntityModel
+                        {
+                            Name = "Model1",
+                            Properties = new Dictionary<string, string>
+                            {
+                                ["string"]="Str1",
+                                ["int"]="Int1"
                             }
                         }
                     }

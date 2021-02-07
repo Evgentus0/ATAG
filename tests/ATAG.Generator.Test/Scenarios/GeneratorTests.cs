@@ -1,4 +1,5 @@
 ﻿using ATAG.Core;
+using ATAG.Core.Generator;
 using ATAG.TestInfrasctructure;
 using NUnit.Framework;
 using System;

@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime;
-using ATAG.Core.Models;
+﻿using ATAG.Core.Models;
 using ATAG.Core.Visitors;
 using ATAG.TestInfrasctructure;
 using Microsoft.CodeAnalysis;

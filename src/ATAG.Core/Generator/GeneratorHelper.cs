@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATAG.Generator
+namespace ATAG.Core.Generator
 {
     public static class GeneratorHelper
     {

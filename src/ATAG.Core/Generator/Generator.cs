@@ -10,9 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ATAG.Generator.GeneratorHelper;
+using static ATAG.Core.Generator.GeneratorHelper;
 
-namespace ATAG.Generator
+namespace ATAG.Core.Generator
 {
     [Generator]
     public class Generator : ISourceGenerator
@@ -25,11 +25,19 @@ namespace ATAG.Generator
 
         public void Initialize(GeneratorInitializationContext context)
         {
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+            Debug.WriteLine("Generator Initialize");
+
             _mainParser = new MainParser(new Core.Visitors.MainVisitor());
         }
 
         public void Execute(GeneratorExecutionContext context)
         {
+            Debug.WriteLine("Generator Execute");
+
             FileParseResult parseResult = ParseFiles(context);
 
             ValidateModelNames(parseResult);

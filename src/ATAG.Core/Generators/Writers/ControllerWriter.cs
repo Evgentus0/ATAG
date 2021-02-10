@@ -11,9 +11,9 @@ namespace ATAG.Core.Generators.Writers
         public ControllerWriter(string @namespace): base(@namespace)
         { }
 
-        public override string GenerateContent(object model)
+        public override string GenerateContent(object entity)
         {
-            var controller = (ControllerModel)model;
+            var controller = (ControllerModel)entity;
 
             StringBuilder sb = new StringBuilder();
             int tabLevel = 0;

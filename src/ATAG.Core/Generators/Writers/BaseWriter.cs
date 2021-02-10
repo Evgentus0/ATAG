@@ -20,7 +20,7 @@ namespace ATAG.Core.Generators.Writers
             writer.Write(content);
         }
 
-        public abstract string GenerateContent(object model);
+        public abstract string GenerateContent(object entity);
 
         protected static string Tabs(int n)
         {

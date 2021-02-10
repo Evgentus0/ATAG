@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATAG.TestInfrasctructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATAG.Generator.Test", "tests\ATAG.Generator.Test\ATAG.Generator.Test.csproj", "{A3AA1988-895D-48ED-9041-0816B80ACA90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATAG.ConsoleClient", "crs\ATAG.ConsoleClient\ATAG.ConsoleClient.csproj", "{4189AAAC-5F54-4F58-A199-7D0ED2DC1994}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATAG.ConsoleClient", "src\ATAG.ConsoleClient\ATAG.ConsoleClient.csproj", "{4189AAAC-5F54-4F58-A199-7D0ED2DC1994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

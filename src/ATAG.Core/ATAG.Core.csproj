@@ -7,15 +7,15 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Antlr4" Version="4.6.6"  GeneratePathProperty="true" PrivateAssets="all">
+    <PackageReference Include="Antlr4" Version="4.6.6" GeneratePathProperty="true" PrivateAssets="all">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Antlr4.CodeGenerator" Version="4.6.6"  GeneratePathProperty="true" PrivateAssets="all">
+    <PackageReference Include="Antlr4.CodeGenerator" Version="4.6.6" GeneratePathProperty="true" PrivateAssets="all">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" GeneratePathProperty="true" PrivateAssets="all"/>
+    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" GeneratePathProperty="true" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>

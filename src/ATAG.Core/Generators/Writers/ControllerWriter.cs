@@ -2,18 +2,19 @@
 using ATAG.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ATAG.Core.Generator
+namespace ATAG.Core.Generators.Writers
 {
-    public static class GeneratorHelper
+    public class ControllerWriter : BaseWriter
     {
-        private const string _namespaceName = nameof(ATAG) + ".Generated";
+        public ControllerWriter(string @namespace): base(@namespace)
+        { }
 
-        public static string GenerateController(ControllerModel controller)
+        public override string GenerateContent(object model)
         {
+            var controller = (ControllerModel)model;
+
             StringBuilder sb = new StringBuilder();
             int tabLevel = 0;
 
@@ -32,7 +33,7 @@ namespace ATAG.Core.Generator
             sb.Append("using System.Runtime;");
             sb.AppendLine();
 
-            sb.Append($"namespace {_namespaceName}");
+            sb.Append($"namespace {_namespace}");
             sb.AppendLine();
             sb.Append("{");
 
@@ -92,53 +93,6 @@ namespace ATAG.Core.Generator
             sb.Append("}");
 
             return sb.ToString();
-        }
-
-        public static string GenerateModel(EntityModel model)
-        {
-            var sb = new StringBuilder();
-            int tabLevel = 0;
-
-            sb.Append("using System;");
-            sb.AppendLine();
-            sb.Append("using System.Collections.Generic;");
-            sb.AppendLine();
-            sb.Append("using System.Linq;");
-            sb.AppendLine();
-            sb.Append("using System.Runtime;");
-            sb.AppendLine();
-
-            sb.Append($"namespace {_namespaceName}");
-            sb.AppendLine();
-            sb.Append("{");
-            sb.AppendLine();
-
-            tabLevel++;
-
-            sb.Append($"{Tabs(tabLevel)}public class {model.Name}");
-            sb.AppendLine();
-            sb.Append($"{Tabs(tabLevel)}{{");
-            sb.AppendLine();
-
-            foreach (var prop in model.Properties)
-            {
-                tabLevel++;
-
-                sb.Append($"{Tabs(tabLevel)}public {prop.Key} {prop.Value} {{get; set;}}");
-                sb.AppendLine();
-
-                tabLevel--;
-            }
-            sb.Append($"{Tabs(tabLevel)}}}");
-            sb.AppendLine();
-            sb.Append("}");
-
-            return sb.ToString();
-        }
-
-        private static string Tabs(int n)
-        {
-            return new string('\t', n);
         }
     }
 }

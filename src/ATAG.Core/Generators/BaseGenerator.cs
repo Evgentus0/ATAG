@@ -15,7 +15,7 @@ namespace ATAG.Core.Generators
 {
     public abstract class BaseGenerator 
     {
-        private const string _searchPattern = "*.atag";
+        private const string _extention = ".atag";
         private readonly string[] _supportedTypes = { "int", "long", "string", "double", "decimal", "float" };
         private readonly IMainParser _mainParser;
 
@@ -31,7 +31,10 @@ namespace ATAG.Core.Generators
 
         private void ValidateInputParameters()
         {
-            throw new NotImplementedException();
+            var sourceFile = _parameters.SourceFilePath;
+            var extention = Path.GetExtension(sourceFile);
+            if (extention != _extention)
+                throw new ArgumentException($"Incorrect extention: {extention}");
         }
 
         public void Execute()
@@ -84,9 +87,14 @@ namespace ATAG.Core.Generators
             {
                 foreach(var method in controller.Methods)
                 {
-                    usedTypes.Add(method.ReturnedType);
-                    usedTypes.Add(method.Parameters.BodyParameter.Key);
-                    usedTypes.AddRange(method.Parameters.QueryParameters.Select(x => x.Key));
+                    if(method.ReturnedType != null)
+                        usedTypes.Add(method.ReturnedType);
+
+                    if(method.Parameters.BodyParameter.Key != null)
+                        usedTypes.Add(method.Parameters.BodyParameter.Key);
+
+                    if(!method.Parameters.QueryParameters.Select(x => x.Key).IsNullOrEmpty())
+                        usedTypes.AddRange(method.Parameters.QueryParameters.Select(x => x.Key));
                 }
             }
 

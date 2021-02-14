@@ -52,7 +52,7 @@ namespace ATAG.Core.Generators.Writers
             {
                 tabLevel++;
 
-                sb.Append($"{Tabs(tabLevel)}[{method.Verb.GetFullName()}]");
+                sb.Append($"{Tabs(tabLevel)}[{method.Verb.GetDescription()}]");
                 sb.AppendLine();
                 foreach (var attribute in method.Attributes)
                 {
@@ -90,6 +90,7 @@ namespace ATAG.Core.Generators.Writers
             }
 
             sb.Append($"{Tabs(tabLevel)}}}");
+            sb.AppendLine();
             sb.Append("}");
 
             return sb.ToString();

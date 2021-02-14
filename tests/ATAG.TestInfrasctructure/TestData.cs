@@ -38,7 +38,7 @@ model Model1{
                                     Attributes = new Dictionary<string, string>{["Route"] = "test_fdf_tedsf"},
                                     Verb = Core.Models.Enums.HttpVerb.get,
                                     Name = "MethodName1",
-                                    ReturnedType = "ResponseModelName1",
+                                    ReturnedType = "string",
                                     Parameters = new ParameterModel()
                                 },
                                 new MethodModel
@@ -46,7 +46,7 @@ model Model1{
                                     Attributes = new Dictionary<string, string>(),
                                     Verb = Core.Models.Enums.HttpVerb.post,
                                     Name = "MethodName2",
-                                    ReturnedType = "ResponseModelName2",
+                                    ReturnedType = "string",
                                     Parameters = new ParameterModel
                                     {
                                         BodyParameter = new KeyValuePair<string, string>("string", "StrParameter"),

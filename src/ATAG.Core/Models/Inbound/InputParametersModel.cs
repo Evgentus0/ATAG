@@ -10,5 +10,6 @@ namespace ATAG.Core.Models.Inbound
         public string SourceFilePath { get; set; }
         public string DestinationPath { get; set; }
         public SupportedGenerators GeneratorType { get; set; }
+        public string Namespace { get; set; }
     }
 }

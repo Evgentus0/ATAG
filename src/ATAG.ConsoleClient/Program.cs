@@ -10,7 +10,7 @@ namespace ATAG.ConsoleClient
     {
         static void Main(string[] args)
         {
-            args = new string[] { "-s", @"C:\Users\Evgentus\Desktop\New folder\sourceFile.atag", 
+            args = new string[] { "-s", @"C:\Users\Evgentus\Desktop\New folder\sourceFile.atag",
                 "--dest", @"C:\Users\Evgentus\Desktop\New folder\dest", "-t", "BackEnd", "-n", "TestNamespace" };
 
             Parser.Default.ParseArguments<Options>(args)
@@ -30,6 +30,8 @@ namespace ATAG.ConsoleClient
                         var generator = factory.GetGeneratorInstance(parameters);
 
                         generator.Execute();
+
+                        Console.WriteLine("Generation is done");
                     }
                     catch(Exception ex)
                     {

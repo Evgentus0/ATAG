@@ -16,6 +16,6 @@ namespace ATAG.ConsoleClient
         [Option('t', "type", Required = true, HelpText = "The type of generated files. Has three options: BackEnd, CSharpClient, AngularClient")]
         public string Type { get; set; }
         [Option('n', "namespace", Required = false, HelpText = "The Namespace where files will be generated")]
-        public string Namespace { get; set; }
+        public string Namespace { get; set; } = "AtagGenerated";
     }
 }

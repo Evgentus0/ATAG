@@ -31,10 +31,16 @@ namespace ATAG.Core.Generators
 
         private void ValidateInputParameters()
         {
+            if(!Directory.Exists(_parameters.SourceFilePath))
+                throw new ArgumentException($"File does not exists: {_parameters.SourceFilePath}");
+
             var sourceFile = _parameters.SourceFilePath;
             var extention = Path.GetExtension(sourceFile);
             if (extention != _extention)
                 throw new ArgumentException($"Incorrect extention: {extention}");
+
+            if (!Directory.Exists(_parameters.DestinationPath))
+                Directory.CreateDirectory(_parameters.DestinationPath);
         }
 
         public void Execute()
@@ -64,7 +70,7 @@ namespace ATAG.Core.Generators
             catch(Exception ex)
             {
                 //add details
-                throw new Exception();
+                throw new Exception("Error during parsing proto file", ex);
             }
         }
 

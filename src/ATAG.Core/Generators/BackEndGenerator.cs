@@ -25,26 +25,24 @@ namespace ATAG.Core.Generators
         {
             foreach (var controller in parseResult.Controllers)
             {
-                var name = controller.Name;
-                if (!name.EndsWith("Controller"))
-                    name += "Controller";
+                if (!controller.Name.EndsWith("Controller"))
+                    controller.Name += "Controller";
 
                 string content = _controllerWriter.GenerateContent(controller);
 
-                string fullPath = Path.Combine(_parameters.DestinationPath, $"{name}.cs");
+                string fullPath = Path.Combine(_parameters.DestinationPath, $"{controller.Name}.cs");
 
                 BaseWriter.AddSource(fullPath, content);
             }
 
             foreach (var model in parseResult.Models)
             {
-                string name = model.Name;
-                if (!name.EndsWith("Model"))
-                    name += "Model";
+                if (!model.Name.EndsWith("Model"))
+                    model.Name += "Model";
 
                 string content = _modelWriter.GenerateContent(model);
 
-                string fullPath = Path.Combine(_parameters.DestinationPath, $"{name}.cs");
+                string fullPath = Path.Combine(_parameters.DestinationPath, $"{model.Name}.cs");
 
                 BaseWriter.AddSource(fullPath, content);
             }

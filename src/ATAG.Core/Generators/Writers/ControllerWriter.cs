@@ -36,10 +36,11 @@ namespace ATAG.Core.Generators.Writers
             sb.Append($"namespace {_namespace}");
             sb.AppendLine();
             sb.Append("{");
+            sb.AppendLine();
 
             tabLevel++;
 
-            sb.Append($"{Tabs(tabLevel)}[Route(\"api /[controller]\")]");
+            sb.Append($"{Tabs(tabLevel)}[Route(\"api/[controller]\")]");
             sb.AppendLine();
             sb.Append($"{Tabs(tabLevel)}[ApiController]");
             sb.AppendLine();
@@ -60,7 +61,7 @@ namespace ATAG.Core.Generators.Writers
                     sb.AppendLine();
                 }
 
-                sb.Append($"{Tabs(tabLevel)}public async Task<ActionResult<{method.ReturnedType}>> " +
+                sb.Append($"{Tabs(tabLevel)}public abstract Task<ActionResult<{method.ReturnedType}>> " +
                     $"{method.Name}(");
 
                 bool hasBodyParameter = !string.IsNullOrEmpty(method.Parameters.BodyParameter.Key);

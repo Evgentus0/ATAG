@@ -102,11 +102,16 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return methodModel;
 
-            methodModel.Verb = (HttpVerb)Enum.Parse(typeof(HttpVerb), context.VERB().GetText());
+            methodModel.Verb = (HttpVerb)Enum.Parse(typeof(HttpVerb), context.verb.Text);
             methodModel.Name = context.name.Text;
             methodModel.ReturnedType = context.returnedType.Text;
-            methodModel.Attributes = context.attributes() != null ?
-                (Dictionary<string, string>)Visit(context.attributes()) : new Dictionary<string, string>();
+            methodModel.Route = context.route?.Text ?? string.Empty;
+
+            if (!string.IsNullOrEmpty(methodModel.Route))
+            {
+                methodModel.Route = methodModel.Route.Trim(new char[]{' ', '"'});
+            }
+
             methodModel.Parameters = context.parameters() != null ?
                 (ParameterModel)Visit(context.parameters()) : new ParameterModel();
 
@@ -184,46 +189,6 @@ namespace ATAG.Core.Visitors
                 return new KeyValuePair<string, string>();
 
             var keyValue = (KeyValuePair<string, string>)Visit(context.propertyDefenition());
-            return keyValue;
-        }
-
-        public override object VisitAttributes([NotNull] GrammarParser.AttributesContext context)
-        {
-            var attributes = new Dictionary<string, string>();
-
-            if (context == null)
-                return attributes;
-
-            foreach(var attribute in context.attribute())
-            {
-                var keyValue = (KeyValuePair<string, string>)Visit(attribute);
-
-                ShouldBeUnique("Attribute", keyValue.Key, 
-                    attributes.Select(x => x.Key), attribute);
-
-                attributes.Add(keyValue.Key, keyValue.Value);
-            }
-
-            return attributes;
-        }
-
-        public override object VisitAttribute([NotNull] GrammarParser.AttributeContext context)
-        {
-            if (context == null)
-                return new KeyValuePair<string, string>();
-
-            
-            var keyValue = new KeyValuePair<string, string>(context.key.Text, context.value.Text);
-
-            if (!_supportedAttributes.Contains(keyValue.Key))
-            {
-                throw new GrammarException($"Attribute {keyValue.Key} does not supported!")
-                {
-                    FromLine = context.SourceInterval.a,
-                    ToLine = context.SourceInterval.b
-                };
-            }
-
             return keyValue;
         }
 

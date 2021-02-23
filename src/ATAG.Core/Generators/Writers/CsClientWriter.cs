@@ -95,9 +95,9 @@ namespace ATAG.Core.Generators.Writers
 						: controller.Name;
 
 					StringBuilder url = new StringBuilder($"_hostUrl + \"/api/{controllerName}");
-					if (method.Attributes.TryGetValue("Route", out string route))
+					if (!string.IsNullOrEmpty(method.Route))
 					{
-						url.Append("/" + route);
+						url.Append("/" + method.Route);
 					}
 					url.Append("\"");
 					if (method.Parameters.QueryParameters.Count > 0)

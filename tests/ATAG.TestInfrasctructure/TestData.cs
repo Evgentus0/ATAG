@@ -15,13 +15,19 @@ namespace ATAG.TestInfrasctructure
             (
 @"
 cntrl ControllerName1{
-	[Route=test_fdf_tedsf] get MethodName1() return string;
-	post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return string;
+	
+	[""test_fdfted_sf""] get MethodName1() return string;
+    post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return string;
+    [""test-route{1}/wer""] put MethodName3(fromBody: Model1 m1) return int;
 }
 
 model Model1{
     string Str1;
     int Int1;
+}
+
+model Test_Model{
+    int m2int2;
 }
 ",
                 new FileParseResult()
@@ -35,7 +41,7 @@ model Model1{
                             {
                                 new MethodModel
                                 {
-                                    Attributes = new Dictionary<string, string>{["Route"] = "test_fdf_tedsf"},
+                                    Route = "test_fdf_tedsf",
                                     Verb = Core.Models.Enums.HttpVerb.get,
                                     Name = "MethodName1",
                                     ReturnedType = "string",
@@ -43,7 +49,7 @@ model Model1{
                                 },
                                 new MethodModel
                                 {
-                                    Attributes = new Dictionary<string, string>(),
+                                    Route = string.Empty,
                                     Verb = Core.Models.Enums.HttpVerb.post,
                                     Name = "MethodName2",
                                     ReturnedType = "string",
@@ -55,6 +61,17 @@ model Model1{
                                             ["int"] = "qpInt",
                                             ["string"] = "qpStr"
                                         }
+                                    }
+                                },
+                                new MethodModel
+                                {
+                                    Name="MethodName3",
+                                    Route="test-route{1}/wer",
+                                    Verb = Core.Models.Enums.HttpVerb.put,
+                                    ReturnedType="int",
+                                    Parameters = new ParameterModel
+                                    {
+                                        BodyParameter = new KeyValuePair<string, string>("Model1", "m1")
                                     }
                                 }
                             }
@@ -69,6 +86,14 @@ model Model1{
                             {
                                 ["string"]="Str1",
                                 ["int"]="Int1"
+                            }
+                        },
+                        new EntityModel
+                        {
+                            Name = "Test_Model",
+                            Properties = new Dictionary<string, string>
+                            {
+                                ["int"] = "m2int2"
                             }
                         }
                     }

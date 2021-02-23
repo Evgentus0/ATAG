@@ -31,7 +31,7 @@ namespace ATAG.Core.Generators
 
         private void ValidateInputParameters()
         {
-            if(!Directory.Exists(_parameters.SourceFilePath))
+            if(!File.Exists(_parameters.SourceFilePath))
                 throw new ArgumentException($"File does not exists: {_parameters.SourceFilePath}");
 
             var sourceFile = _parameters.SourceFilePath;

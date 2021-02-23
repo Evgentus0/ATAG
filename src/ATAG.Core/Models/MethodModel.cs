@@ -11,14 +11,9 @@ namespace ATAG.Core.Models
     {
         public HttpVerb Verb { get; set; }
         public string Name { get; set; }
-        public Dictionary<string, string> Attributes { get; set; }
+        public string Route { get; set; }
         public string ReturnedType { get; set; }
         public ParameterModel Parameters { get; set; }
-
-        public MethodModel()
-        {
-            Attributes = new Dictionary<string, string>();
-        }
 
         public override bool Equals(object obj)
         {

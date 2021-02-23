@@ -55,9 +55,9 @@ namespace ATAG.Core.Generators.Writers
 
                 sb.Append($"{Tabs(tabLevel)}[{method.Verb.GetDescription()}]");
                 sb.AppendLine();
-                foreach (var attribute in method.Attributes)
+                if (!string.IsNullOrEmpty(method.Route))
                 {
-                    sb.Append($"{Tabs(tabLevel)}[{attribute.Key}(\"{attribute.Value}\")]");
+                    sb.Append($"{Tabs(tabLevel)}[Route(\"{method.Route}\")]");
                     sb.AppendLine();
                 }
 

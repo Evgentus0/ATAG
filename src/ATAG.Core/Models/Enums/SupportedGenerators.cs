@@ -8,7 +8,6 @@ namespace ATAG.Core.Models.Enums
 {
     public enum SupportedGenerators
     {
-        [KeyTypeValue("Generator", typeof(BackEndGenerator))]
         BackEnd,
         CSharpClient,
         AngularClient

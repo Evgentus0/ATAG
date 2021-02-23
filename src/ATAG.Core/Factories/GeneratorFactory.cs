@@ -18,7 +18,8 @@ namespace ATAG.Core.Factories
                     return new BackEndGenerator(new MainParser(new Visitors.MainVisitor()), 
                         paramters, new ControllerWriter(paramters.Namespace), new ModelWriter(paramters.Namespace));
                 case SupportedGenerators.CSharpClient:
-                    throw new NotImplementedException();
+                    return new CSharpClientGenerator(new MainParser(new Visitors.MainVisitor()),
+                        paramters, new CsClientWriter(paramters.Namespace), new ModelWriter(paramters.Namespace));
                 case SupportedGenerators.AngularClient:
                     throw new NotImplementedException();
                 default:

@@ -1,6 +1,7 @@
 ﻿using ATAG.Core.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,18 +11,32 @@ namespace ATAG.Core.Extentions
 {
     public static class AttributesExtentions
     {
-        public static string GetFullName(this Enum value)
+        public static string GetDescription(this Enum @this)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            FieldInfo fi = @this.GetType().GetField(@this.ToString());
 
-            FullNameAttribute[] attributes = fi.GetCustomAttributes(typeof(FullNameAttribute), false) as FullNameAttribute[];
+            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 
-            if (attributes != null && attributes.Any())
+            if (!attributes.IsNullOrEmpty())
             {
-                return attributes.First().FullName;
+                return attributes.First().Description;
             }
 
-            return value.ToString();
+            return default;
+        }
+
+        public static Type GetTypeByKey(this Enum @this, string key)
+        {
+            FieldInfo fi = @this.GetType().GetField(@this.ToString());
+
+            KeyTypeValueAttribute[] attributes = fi.GetCustomAttributes(typeof(KeyTypeValueAttribute), false) as KeyTypeValueAttribute[];
+
+            if (!attributes.IsNullOrEmpty())
+            {
+                return attributes.First(x => x.Key == key)?.TypeValue ?? default;
+            }
+
+            return default;
         }
     }
 }

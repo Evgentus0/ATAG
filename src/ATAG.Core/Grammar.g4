@@ -4,16 +4,13 @@
  * Parser Rules
  */
 
- instructions : (controller | model)+;
+instructions : (controller | model)+;
 
-controller : CONTROLLER name=CAPTION LBRACE (methodDefinition)+ RBRACE;
+controller : CONTROLLER name=CAPTION LBRACE (methodDefinition';')+ RBRACE;
 
 model : MODEL name=CAPTION LBRACE (propertyDefenition';')+ RBRACE;
 
-methodDefinition : (attributes)? VERB name=CAPTION LPAREN (parameters)? RPAREN RETURN returnedType=CAPTION ';';
-
-attributes : LSQUAREPAREN attribute (','attribute)* RSQUAREPAREN;
-attribute : key=CAPTION EQUAL value=VALUE;
+methodDefinition : (LSQUAREPAREN route=VALUE RSQUAREPAREN)? verb=VERB name=CAPTION LPAREN (parameters)? RPAREN RETURN returnedType=CAPTION;
 
 parameters : (bodyParameter | queryParameter | bodyParameter ';' queryParameter);
 bodyParameter : FROMBODY ':' propertyDefenition;
@@ -47,8 +44,8 @@ RSQUAREPAREN : ']';
 
 EQUAL : '=';
 
-CAPTION : [A-Za-z]+([A-Za-z] | [0-9] | '_' )*;
+CAPTION : [A-Za-z]+([A-Za-z] | [0-9] | '_')+;
 
-VALUE : (CAPTION | '-' | '/' | LBRACE | RBRACE)+;
+VALUE : '"' ([A-Za-z] | [0-9] | '-' | '/' | '_' | LBRACE | RBRACE)+ '"';
 
 WS : [ \t\r\n] -> channel(HIDDEN);

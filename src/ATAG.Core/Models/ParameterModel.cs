@@ -9,22 +9,23 @@ namespace ATAG.Core.Models
 {
     public class ParameterModel
     {
-        public KeyValuePair<string, string> BodyParameter { get; set; }
-        public Dictionary<string, string> QueryParameters { get; set; }
+        public FieldModel BodyParameter { get; set; }
+        public List<FieldModel> QueryParameters { get; set; }
 
         public ParameterModel()
         {
-            QueryParameters = new Dictionary<string, string>();
+            BodyParameter = new FieldModel();
+            QueryParameters = new List<FieldModel>();
         }
 
         public override bool Equals(object obj)
         { 
             var parameter = (ParameterModel)obj;
 
-            return BodyParameter.Key == parameter.BodyParameter.Key
+            return BodyParameter.Type == parameter.BodyParameter.Type
                     && QueryParameters.Count == parameter.QueryParameters.Count
-                    && QueryParameters.Select(x => x.Key)
-                    .EqualsByElements(parameter.QueryParameters.Select(x => x.Key));
+                    && QueryParameters.Select(x => x.Type)
+                    .EqualsByElements(parameter.QueryParameters.Select(x => x.Type));
         }
 
         public override int GetHashCode()

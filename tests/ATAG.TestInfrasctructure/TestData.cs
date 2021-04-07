@@ -15,13 +15,20 @@ namespace ATAG.TestInfrasctructure
             (
 @"
 cntrl ControllerName1{
-	[Route=test_fdf_tedsf] get MethodName1() return string;
-	post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return string;
+	
+	[""test_fdfted_sf""] get MethodName1() return string;
+    post MethodName2(fromBody: string StrParameter; fromQuery: int qpInt, string qpStr) return string;
+    [""test-route{1}/wer""] put MethodName3(fromBody: Model1 m1) return int;
 }
 
 model Model1{
     string Str1;
     int Int1;
+}
+
+model Test_Model{
+    int m2int2;
+    int m2int3;
 }
 ",
                 new FileParseResult()
@@ -35,26 +42,45 @@ model Model1{
                             {
                                 new MethodModel
                                 {
-                                    Attributes = new Dictionary<string, string>{["Route"] = "test_fdf_tedsf"},
+                                    Route = "test_fdf_tedsf",
                                     Verb = Core.Models.Enums.HttpVerb.get,
                                     Name = "MethodName1",
-                                    ReturnedType = "ResponseModelName1",
+                                    ReturnedType = "string",
                                     Parameters = new ParameterModel()
                                 },
                                 new MethodModel
                                 {
-                                    Attributes = new Dictionary<string, string>(),
+                                    Route = string.Empty,
                                     Verb = Core.Models.Enums.HttpVerb.post,
                                     Name = "MethodName2",
-                                    ReturnedType = "ResponseModelName2",
+                                    ReturnedType = "string",
                                     Parameters = new ParameterModel
                                     {
-                                        BodyParameter = new KeyValuePair<string, string>("string", "StrParameter"),
-                                        QueryParameters = new Dictionary<string, string>
+                                        BodyParameter = new FieldModel{Type = "string", Name = "StrParameter" },
+                                        QueryParameters = new List<FieldModel>
                                         {
-                                            ["int"] = "qpInt",
-                                            ["string"] = "qpStr"
+                                            new FieldModel
+                                            {
+                                                Type = "int",
+                                                Name = "qpInt"
+                                            },
+                                            new FieldModel
+                                            {
+                                                Type = "string",
+                                                Name = "qpStr"
+                                            }
                                         }
+                                    }
+                                },
+                                new MethodModel
+                                {
+                                    Name="MethodName3",
+                                    Route="test-route{1}/wer",
+                                    Verb = Core.Models.Enums.HttpVerb.put,
+                                    ReturnedType="int",
+                                    Parameters = new ParameterModel
+                                    {
+                                        BodyParameter = new FieldModel{Type = "Model1", Name = "m1" }
                                     }
                                 }
                             }
@@ -65,10 +91,35 @@ model Model1{
                         new EntityModel
                         {
                             Name = "Model1",
-                            Properties = new Dictionary<string, string>
+                            Properties = new List<FieldModel>
                             {
-                                ["string"]="Str1",
-                                ["int"]="Int1"
+                                new FieldModel
+                                {
+                                    Type = "string",
+                                    Name = "Str1"
+                                },
+                                new FieldModel
+                                {
+                                    Type = "int",
+                                    Name="Int1"
+                                }
+                            }
+                        },
+                        new EntityModel
+                        {
+                            Name = "Test_Model",
+                            Properties = new List<FieldModel>
+                            {
+                                new FieldModel
+                                {
+                                    Type = "int",
+                                    Name = "m2int2"
+                                },
+                                new FieldModel
+                                {
+                                    Type = "int",
+                                    Name = "m2int3"
+                                }
                             }
                         }
                     }

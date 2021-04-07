@@ -13,6 +13,8 @@ namespace ATAG.Core.Exceptions
 
         public GrammarException(string message): base(message)
         { }
+        public GrammarException(string message, Exception ex) : base(message, ex)
+        { }
 
         public GrammarException()
         { }

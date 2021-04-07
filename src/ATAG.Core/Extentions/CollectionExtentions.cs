@@ -8,6 +8,14 @@ namespace ATAG.Core.Extentions
 {
     public static class CollectionExtention
     {
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> @this)
+        {
+            if (@this == null || @this.Count() == 0)
+                return true;
+
+            return false;
+        }
+
         public static bool EqualsByElements<T>(this IEnumerable<T> first, IEnumerable<T> second)
         {
             if(first.Count() != second.Count())

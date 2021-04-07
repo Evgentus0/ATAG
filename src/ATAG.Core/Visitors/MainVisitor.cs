@@ -24,6 +24,9 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return result;
 
+            if (context.exception is not null)
+                throw context.exception;
+
             try
             {
                 foreach (var child in context.children)
@@ -74,6 +77,9 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return controller;
 
+            if (context.exception is not null)
+                throw context.exception;
+
             controller.Name = context.name.Text;
 
             try
@@ -102,6 +108,9 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return methodModel;
 
+            if (context.exception is not null)
+                throw context.exception;
+
             methodModel.Verb = (HttpVerb)Enum.Parse(typeof(HttpVerb), context.verb.Text);
             methodModel.Name = context.name.Text;
             methodModel.ReturnedType = context.returnedType.Text;
@@ -126,16 +135,19 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return model;
 
+            if (context.exception is not null)
+                throw context.exception;
+
             model.Name = context.name.Text;
 
             foreach(var prop in context.propertyDefenition())
             {
-                var property = (KeyValuePair<string, string>)Visit(prop);
+                var property = (FieldModel)Visit(prop);
 
                 ShouldBeUnique("Property", property,
                     model.Properties, prop);
 
-                model.Properties.Add(property.Key, property.Value);
+                model.Properties.Add(new FieldModel { Type = property.Type, Name = property.Name });
             }
 
 
@@ -145,9 +157,12 @@ namespace ATAG.Core.Visitors
         public override object VisitPropertyDefenition([NotNull] GrammarParser.PropertyDefenitionContext context)
         {
             if (context == null)
-                return new KeyValuePair<string, string>();
+                return new FieldModel();
 
-            return new KeyValuePair<string, string>(context.type.Text, context.name.Text);
+            if (context.exception is not null)
+                throw context.exception;
+
+            return new FieldModel { Type = context.type.Text, Name = context.name.Text };
         }
 
         public override object VisitParameters([NotNull] GrammarParser.ParametersContext context)
@@ -156,28 +171,34 @@ namespace ATAG.Core.Visitors
             if (context == null)
                 return parameters;
 
+            if (context.exception is not null)
+                throw context.exception;
+
             parameters.BodyParameter = context.bodyParameter() != null ?
-                (KeyValuePair<string, string>)Visit(context.bodyParameter()) : new KeyValuePair<string, string>();
+                (FieldModel)Visit(context.bodyParameter()) : new FieldModel();
             parameters.QueryParameters = context.queryParameter() != null ?
-                (Dictionary<string, string>)Visit(context.queryParameter()) : new Dictionary<string, string>();
+                (List<FieldModel>)Visit(context.queryParameter()) : new List<FieldModel>();
 
             return parameters;
         }
 
         public override object VisitQueryParameter([NotNull] GrammarParser.QueryParameterContext context)
         {
-            var parameters = new Dictionary<string, string>();
+            var parameters = new List<FieldModel>();
             if (context == null)
                 return parameters;
 
+            if (context.exception is not null)
+                throw context.exception;
+
             foreach (var prop in context.propertyDefenition())
             {
-                var property = (KeyValuePair<string, string>)Visit(prop);
+                var property = (FieldModel)Visit(prop);
 
-                ShouldBeUnique("QueryParameter", property.Value, 
-                    parameters.Select(x => x.Value), prop);
+                ShouldBeUnique("QueryParameter", property.Name, 
+                    parameters.Select(x => x.Name), prop);
 
-                parameters.Add(property.Key, property.Value);
+                parameters.Add(new FieldModel{ Type = property.Type, Name = property.Name});
             }
 
             return parameters;
@@ -186,9 +207,12 @@ namespace ATAG.Core.Visitors
         public override object VisitBodyParameter([NotNull] GrammarParser.BodyParameterContext context)
         {
             if (context == null)
-                return new KeyValuePair<string, string>();
+                return new FieldModel();
 
-            var keyValue = (KeyValuePair<string, string>)Visit(context.propertyDefenition());
+            if (context.exception is not null)
+                throw context.exception;
+
+            var keyValue = (FieldModel)Visit(context.propertyDefenition());
             return keyValue;
         }
 

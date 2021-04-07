@@ -84,7 +84,7 @@ namespace ATAG.Core.Generators
 
             foreach (var model in parseResult.Models)
             {
-                var properties = model.Properties.Select(x => x.Key);
+                var properties = model.Properties.Select(x => x.Type);
 
                 usedTypes.AddRange(properties);
             }
@@ -96,11 +96,11 @@ namespace ATAG.Core.Generators
                     if(method.ReturnedType != null)
                         usedTypes.Add(method.ReturnedType);
 
-                    if(method.Parameters.BodyParameter.Key != null)
-                        usedTypes.Add(method.Parameters.BodyParameter.Key);
+                    if(method.Parameters.BodyParameter.Type != null)
+                        usedTypes.Add(method.Parameters.BodyParameter.Type);
 
-                    if(!method.Parameters.QueryParameters.Select(x => x.Key).IsNullOrEmpty())
-                        usedTypes.AddRange(method.Parameters.QueryParameters.Select(x => x.Key));
+                    if(!method.Parameters.QueryParameters.Select(x => x.Type).IsNullOrEmpty())
+                        usedTypes.AddRange(method.Parameters.QueryParameters.Select(x => x.Type));
                 }
             }
 

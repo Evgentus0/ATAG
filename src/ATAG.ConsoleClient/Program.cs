@@ -10,8 +10,8 @@ namespace ATAG.ConsoleClient
     {
         static void Main(string[] args)
         {
-            args = new string[] { "-s", @"C:\Users\Evgentus\Desktop\New folder\sourceFile.atag",
-                "--dest", @"C:\Users\Evgentus\Desktop\New folder\dest", "-t", "BackEnd", "-n", "TestNamespace" };
+            //args = new string[] { "-s", @"C:\Users\Evgentus\Desktop\New folder\sourceFile.atag",
+            //    "--dest", @"C:\Users\Evgentus\Desktop\New folder\dest", "-t", "BackEnd", "-n", "TestNamespace" };
 
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(o =>

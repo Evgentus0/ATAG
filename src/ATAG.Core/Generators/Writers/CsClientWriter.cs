@@ -64,12 +64,12 @@ namespace ATAG.Core.Generators.Writers
 				{
 					sb.Append($"{Tabs(tabLevel)}public async Task<{method.ReturnedType}> {method.Name}(");
 
-					bool hasBodyParameter = !string.IsNullOrEmpty(method.Parameters.BodyParameter.Key);
+					bool hasBodyParameter = !string.IsNullOrEmpty(method.Parameters.BodyParameter.Type);
 
 					if (hasBodyParameter)
 					{
 						var bp = method.Parameters.BodyParameter;
-						sb.Append($"{bp.Key} {bp.Value}");
+						sb.Append($"{bp.Type} {bp.Name}");
 					}
 
 					if (method.Parameters.QueryParameters.Count > 0)
@@ -79,7 +79,7 @@ namespace ATAG.Core.Generators.Writers
 
 						foreach (var qp in method.Parameters.QueryParameters)
 						{
-							sb.Append($"{qp.Key} {qp.Value}, ");
+							sb.Append($"{qp.Type} {qp.Name}, ");
 						}
 						sb.Length -= 2;
 					}
@@ -105,7 +105,7 @@ namespace ATAG.Core.Generators.Writers
 						url.Append("+\"?");
 						foreach (var qp in method.Parameters.QueryParameters)
 						{
-							url.Append($"{qp.Value}=\"+{qp.Value}.ToString()+\"&");
+							url.Append($"{qp.Name}=\"+{qp.Name}.ToString()+\"&");
 						}
 						url.Length -= 3;
 						url.Append(";");
@@ -118,7 +118,7 @@ namespace ATAG.Core.Generators.Writers
 
 					if (hasBodyParameter)
 					{
-						sb.Append($", {method.Parameters.BodyParameter.Value}");
+						sb.Append($", {method.Parameters.BodyParameter.Name}");
 					}
 					sb.Append(");");
                     sb.AppendLine();

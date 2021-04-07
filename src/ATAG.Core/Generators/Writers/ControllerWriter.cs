@@ -64,11 +64,11 @@ namespace ATAG.Core.Generators.Writers
                 sb.Append($"{Tabs(tabLevel)}public abstract Task<ActionResult<{method.ReturnedType}>> " +
                     $"{method.Name}(");
 
-                bool hasBodyParameter = !string.IsNullOrEmpty(method.Parameters.BodyParameter.Key);
+                bool hasBodyParameter = !string.IsNullOrEmpty(method.Parameters.BodyParameter.Type);
                 if (hasBodyParameter)
                 {
                     var bp = method.Parameters.BodyParameter;
-                    sb.Append($"[FromBody]{bp.Key} {bp.Value}");
+                    sb.Append($"[FromBody]{bp.Type} {bp.Name}");
                 }
 
                 if (method.Parameters.QueryParameters.Count > 0)
@@ -78,7 +78,7 @@ namespace ATAG.Core.Generators.Writers
 
                     foreach (var qp in method.Parameters.QueryParameters)
                     {
-                        sb.Append($"[FromQuery]{qp.Key} {qp.Value}, ");
+                        sb.Append($"[FromQuery]{qp.Type} {qp.Name}, ");
                     }
                     sb.Length -= 2;
                 }

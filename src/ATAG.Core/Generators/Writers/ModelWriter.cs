@@ -41,7 +41,7 @@ namespace ATAG.Core.Generators.Writers
             {
                 tabLevel++;
 
-                sb.Append($"{Tabs(tabLevel)}public {prop.Key} {prop.Value} {{get; set;}}");
+                sb.Append($"{Tabs(tabLevel)}public {prop.Type} {prop.Name} {{get; set;}}");
                 sb.AppendLine();
 
                 tabLevel--;
